@@ -4,8 +4,15 @@ import './index.css'
 import App from './App.jsx'
 import axios from 'axios'
 
-const promise = axios.get('https://localhost:3001/api/duenios')
-console.log(promise)
+// Llamada de prueba al backend (localhost:3001)
+axios
+  .get('http://localhost:3001/api/duenios/7')
+  .then(response => {
+    console.log("Datos recibidos del backend:", response.data)
+  })
+  .catch(error => {
+    console.error("Error al consultar el backend:", error)
+  })
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
