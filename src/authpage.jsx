@@ -6,6 +6,9 @@ export default function AuthPage({ onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  //-----------------------------
+  // LOGIN
+  //-----------------------------
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -17,16 +20,14 @@ export default function AuthPage({ onLogin }) {
 
     const data = await res.json();
 
-    if (!res.ok) {
-      alert(data.error);
-      return;
-    }
+    if (!res.ok) return alert(data.error);
 
-    localStorage.setItem("token", data.token);
-    onLogin(data.email);
-    window.location.href = "/objetos"; // redirige a sección de objetos
+    onLogin(data.token);
   };
 
+  //-----------------------------
+  // REGISTRO
+  //-----------------------------
   const handleRegister = async (e) => {
     e.preventDefault();
 
@@ -37,24 +38,9 @@ export default function AuthPage({ onLogin }) {
     });
 
     const data = await res.json();
+    if (!res.ok) return alert(data.error);
 
-    if (!res.ok) {
-      alert(data.error);
-      return;
-    }
-
-    alert("Usuario registrado correctamente. Ahora inicia sesión.");
-    setIsRegister(false);
-    setNombre("");
-    setEmail("");
-    setPassword("");
-  };
-
-  const handleCancel = () => {
-    // Puedes limpiar los campos o cerrar el modal
-    setNombre("");
-    setEmail("");
-    setPassword("");
+    alert("Usuario registrado correctamente.");
     setIsRegister(false);
   };
 
@@ -71,7 +57,7 @@ export default function AuthPage({ onLogin }) {
     >
       <div
         style={{
-          background: "red",
+          background: "white",
           padding: "30px",
           borderRadius: "10px",
           width: "350px",
@@ -89,7 +75,6 @@ export default function AuthPage({ onLogin }) {
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
               style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
-              required
             />
           )}
 
@@ -118,54 +103,32 @@ export default function AuthPage({ onLogin }) {
               padding: "10px",
               cursor: "pointer",
               background: isRegister ? "#00b894" : "#0984e3",
-              color: "black",
+              color: "white",
               border: "none",
               borderRadius: "5px",
               marginBottom: "10px",
             }}
           >
-            {isRegister ? "Crear cuenta" : "Iniciar sesión"}
+            {isRegister ? "Registrar" : "Iniciar sesión"}
           </button>
         </form>
 
-        <div
+        <button
+          onClick={() => setIsRegister(!isRegister)}
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: "10px",
+            width: "100%",
+            padding: "10px",
+            cursor: "pointer",
+            background: "#dfe6e9",
+            border: "none",
+            borderRadius: "5px",
+            marginBottom: "10px",
           }}
         >
-          <button
-            onClick={() => setIsRegister(!isRegister)}
-            style={{
-              flex: 1,
-              padding: "10px",
-              marginRight: "5px",
-              cursor: "pointer",
-              background: "#050504ff",
-              border: "none",
-              borderRadius: "5px",
-            }}
-          >
-            {isRegister ? "Iniciar sesión" : "Registrarse"}
-          </button>
-
-          <button
-            onClick={handleCancel}
-            style={{
-              flex: 1,
-              padding: "10px",
-              marginLeft: "5px",
-              cursor: "pointer",
-              background: "#000000ff",
-              border: "none",
-              borderRadius: "5px",
-            }}
-          >
-            Cancelar
-          </button>
-        </div>
+          {isRegister ? "Volver a iniciar sesión" : "Crear cuenta"}
+        </button>
       </div>
     </div>
   );
 }
+

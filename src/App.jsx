@@ -1,59 +1,148 @@
 import { useEffect, useState } from "react";
-import AuthPage from "./authpage"; 
-import home from "./home";
+import AuthPage from "./authpage";
 
 function App() {
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [objetos, setObjetos] = useState([]);
   const [selectedObjeto, setSelectedObjeto] = useState(null);
   const [duenio, setDuenio] = useState(null);
-// App.jsx
-  // Mostrar página de bienvenida si el token es "welcome
-  const handleUserLogin = (user) => {
-    console.log("Usuario logueado:", user);
+
+  // Popup agregar objeto
+  const [showAddPopup, setShowAddPopup] = useState(false);
+  const [newObjeto, setNewObjeto] = useState({
+    nombre: "",
+    caracteristicas: "",
+    id_duenio: "",
+    estado: true,
+  });
+
+  //-------------------------------
+  // 🔵 Cargar lista de objetos
+  //-------------------------------
+  const fetchObjetos = async (jwt) => {
+    try {
+      const res = await fetch("http://localhost:3001/api/objetos");
+
+      if (!res.ok) throw new Error("Error cargando objetos");
+
+      const data = await res.json();
+      setObjetos(data);
+    } catch (err) {
+      console.error("Error:", err);
+    }
   };
 
-  return <AuthPage onLogin={handleUserLogin} />;
+  //-------------------------------------
+  // 🟢 Login exitoso
+  //-------------------------------------
+  const handleUserLogin = (jwt) => {
+    localStorage.setItem("token", jwt);
+    setToken(jwt);
+    fetchObjetos(jwt);
+  };
 
+  //-------------------------------------
+  // 🚪 Cerrar sesión
+  //-------------------------------------
+  const logout = () => {
+    localStorage.removeItem("token");
+    setToken(null);
+    setObjetos([]);
+  };
 
-  // Mostrar login si no hay token
-  if (!localStorage.getItem("token")) {
-    return <AuthPage />;
-  }
-
+  //-------------------------------------
+  // 🔵 Auto-cargar objetos si ya hay token
+  //-------------------------------------
   useEffect(() => {
-    fetch("http://localhost:3001/api/objetos")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Objetos cargados:", data);
-        setObjetos(data);
-      })
-      .catch((err) => console.error("Error cargando objetos:", err));
-  }, []);
+    if (token) fetchObjetos(token);
+  }, [token]);
 
+  //-------------------------------------
+  // 🟣 Cargar dueño cuando selecciono objeto
+  //-------------------------------------
   useEffect(() => {
     if (!selectedObjeto) return;
 
-    const idDuenio = selectedObjeto.id_duenio;
-
-    if (!idDuenio) {
-      console.warn("El objeto no tiene id_duenio:", selectedObjeto);
-      setDuenio(null);
-      return;
-    }
-
-    fetch(`http://localhost:3001/api/duenios/${idDuenio}`)
+    fetch(`http://localhost:3001/api/duenios/${selectedObjeto.id_duenio}`)
       .then((res) => res.json())
-      .then((data) => {
-        console.log("Dueño cargado:", data);
-        setDuenio(data);
-      })
+      .then((data) => setDuenio(data))
       .catch((err) => console.error("Error cargando dueño:", err));
   }, [selectedObjeto]);
 
+  //-------------------------------------
+  // 🟠 Guardar nuevo objeto
+  //-------------------------------------
+  const handleAddObjeto = async () => {
+    try {
+      const res = await fetch("http://localhost:3001/api/objetos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newObjeto),
+      });
+
+      if (!res.ok) return alert("Error guardando objeto");
+
+      // Limpiar formulario
+      setShowAddPopup(false);
+      setNewObjeto({
+        nombre: "",
+        caracteristicas: "",
+        id_duenio: "",
+        estado: true,
+      });
+
+      fetchObjetos(token);
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
+  //-------------------------------------
+  // 🟥 Si no está logueado → mostrar login
+  //-------------------------------------
+  if (!token) return <AuthPage onLogin={handleUserLogin} />;
+
+  //-------------------------------------
+  // 🟩 Render principal
+  //-------------------------------------
   return (
     <div style={{ padding: "20px", fontFamily: "Arial" }}>
-      <h2>Objetos</h2>
+      <h2>Objetos Perdidos</h2>
 
+      {/* Botones superiores */}
+      <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
+        <button
+          onClick={() => setShowAddPopup(true)}
+          style={{
+            padding: "10px",
+            background: "green",
+            color: "white",
+            border: "none",
+            borderRadius: "6px",
+            cursor: "pointer",
+          }}
+        >
+          Agregar Objeto
+        </button>
+
+        <button
+          onClick={logout}
+          style={{
+            padding: "10px",
+            background: "red",
+            color: "white",
+            border: "none",
+            borderRadius: "6px",
+            cursor: "pointer",
+          }}
+        >
+          Cerrar Sesión
+        </button>
+      </div>
+
+      {/* LISTA DE OBJETOS */}
       <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
         {objetos.map((obj) => (
           <button
@@ -68,11 +157,12 @@ function App() {
               color: selectedObjeto?.id === obj.id ? "white" : "black",
             }}
           >
-            {obj.nombre_object}
+            {obj.nombre} ({obj.estado ? "Perdido" : "Recuperado"})
           </button>
         ))}
       </div>
 
+      {/* INFO PANEL */}
       {selectedObjeto && (
         <div
           style={{
@@ -83,23 +173,132 @@ function App() {
           }}
         >
           <h3>Objeto seleccionado</h3>
-          <p><strong>ID:</strong> {selectedObjeto.id}</p>
-          <p><strong>Nombre:</strong> {selectedObjeto.nombre_object}</p>
+          <p><strong>Nombre:</strong> {selectedObjeto.nombre}</p>
           <p><strong>Características:</strong> {selectedObjeto.caracteristicas}</p>
+          <p><strong>Estado:</strong> {selectedObjeto.estado ? "Perdido" : "Recuperado"}</p>
 
           <h3>Dueño del objeto</h3>
-
           {duenio ? (
             <>
-              <p><strong>ID Dueño:</strong> {duenio.id_duenio}</p>
-              <p><strong>Nombre:</strong> {duenio.duenio}</p>
+              <p><strong>Nombre:</strong> {duenio.nombre}</p>
               <p><strong>Teléfono:</strong> {duenio.telefono}</p>
-              <p><strong>Email:</strong> {duenio.mail}</p>
-              <p><strong>Dirección:</strong> {duenio.direccion}</p>
             </>
           ) : (
             <p>Cargando dueño…</p>
           )}
+        </div>
+      )}
+
+      {/* POPUP AGREGAR */}
+      {showAddPopup && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background: "rgba(0,0,0,0.6)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 999,
+          }}
+        >
+          <div
+            style={{
+              width: "350px",
+              background: "white",
+              padding: "20px",
+              borderRadius: "10px",
+            }}
+          >
+            <h3>Agregar Objeto</h3>
+
+            <input
+              type="text"
+              placeholder="Nombre"
+              value={newObjeto.nombre}
+              onChange={(e) =>
+                setNewObjeto({ ...newObjeto, nombre: e.target.value })
+              }
+              style={{ width: "100%", marginBottom: "10px" }}
+            />
+
+            <textarea
+              placeholder="Características"
+              value={newObjeto.caracteristicas}
+              onChange={(e) =>
+                setNewObjeto({
+                  ...newObjeto,
+                  caracteristicas: e.target.value,
+                })
+              }
+              style={{ width: "100%", marginBottom: "10px" }}
+            />
+
+            <input
+              type="number"
+              placeholder="ID Dueño"
+              value={newObjeto.id_duenio}
+              onChange={(e) =>
+                setNewObjeto({
+                  ...newObjeto,
+                  id_duenio: Number(e.target.value),
+                })
+              }
+              style={{ width: "100%", marginBottom: "10px" }}
+            />
+
+            <label>
+              Estado:
+              <select
+                value={newObjeto.estado}
+                onChange={(e) =>
+                  setNewObjeto({
+                    ...newObjeto,
+                    estado: e.target.value === "true",
+                  })
+                }
+                style={{ marginLeft: "10px" }}
+              >
+                <option value="true">Perdido</option>
+                <option value="false">Recuperado</option>
+              </select>
+            </label>
+
+            <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+              <button
+                onClick={handleAddObjeto}
+                style={{
+                  flex: 1,
+                  padding: "10px",
+                  background: "green",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                }}
+              >
+                Guardar
+              </button>
+
+              <button
+                onClick={() => setShowAddPopup(false)}
+                style={{
+                  flex: 1,
+                  padding: "10px",
+                  background: "red",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                }}
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
@@ -107,3 +306,6 @@ function App() {
 }
 
 export default App;
+
+
+
