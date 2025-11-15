@@ -61,13 +61,9 @@ function App() {
   // 🟣 Cargar dueño cuando selecciono objeto
   //-------------------------------------
   useEffect(() => {
-    if (!selectedObjeto) return;
-
-    fetch(`http://localhost:3001/api/duenios/${selectedObjeto.id_duenio}`)
-      .then((res) => res.json())
-      .then((data) => setDuenio(data))
-      .catch((err) => console.error("Error cargando dueño:", err));
-  }, [selectedObjeto]);
+  if (!selectedObjeto) return;
+  setDuenio(selectedObjeto.duenios || null);
+}, [selectedObjeto]);
 
   //-------------------------------------
   // 🟠 Guardar nuevo objeto
