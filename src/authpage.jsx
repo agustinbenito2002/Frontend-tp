@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function AuthPage({ onLogin }) {
+export default function AuthPage({ onLogin, onObserverEnter }) {
   const [isRegister, setIsRegister] = useState(false);
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
@@ -45,16 +45,7 @@ export default function AuthPage({ onLogin }) {
   };
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(0,0,0,0.6)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <div style={{ maxWidth: 420, margin: "40px auto", padding: 18 }}>
       <div
         style={{
           background: "white",
@@ -126,6 +117,22 @@ export default function AuthPage({ onLogin }) {
           }}
         >
           {isRegister ? "Volver a iniciar sesión" : "Crear cuenta"}
+        </button>
+      </div>
+
+      <div style={{ marginTop: 12, display: "flex", gap: 8 }}>
+        <button
+          onClick={onObserverEnter}
+          style={{
+            flex: 1,
+            padding: "10px",
+            background: "#2c3e50",
+            color: "#fff",
+            border: "none",
+            borderRadius: 6,
+          }}
+        >
+          Entrar como Observador
         </button>
       </div>
     </div>
