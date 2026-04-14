@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import AuthPage from "./authpage";
 
 function App() {
-  const apiUrl = import.meta.env.REACT_APP_API_URL || "http://localhost:3001";
+  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3001";
   const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [isObserver, setIsObserver] = useState(localStorage.getItem("observer") === "true");
   const [objetos, setObjetos] = useState([]);
@@ -208,7 +208,7 @@ function App() {
   // Render
   // --------------------------------
   if (!token && !isObserver)
-    return <AuthPage onLogin={handleUserLogin} onObserverEnter={handleObserverEnter} />;
+    return <AuthPage apiUrl={apiUrl} onLogin={handleUserLogin} onObserverEnter={handleObserverEnter} />;
 
   return (
     <div style={{ padding: "20px", fontFamily: "Arial" }}>

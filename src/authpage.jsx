@@ -1,18 +1,32 @@
 import { useState } from "react";
 
-export default function AuthPage({ onLogin, onObserverEnter }) {
+export default function AuthPage({ apiUrl, onLogin, onObserverEnter }) {
   const [isRegister, setIsRegister] = useState(false);
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("");
+
+  const clearMessage = () => {
+    setMessage("");
+    setMessageType("");
+  };
 
   //-----------------------------
   // LOGIN
   //-----------------------------
   const handleLogin = async (e) => {
     e.preventDefault();
+    clearMessage();
 
-    const res = await fetch("http://localhost:3001/api/auth/login", {
+    if (!email || !password) {
+      setMessage("Completa correo y contraseña para iniciar sesión.");
+      setMessageType("error");
+      return;
+    }
+
+    const res = await fetch(`${apiUrl}/api/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -20,8 +34,14 @@ export default function AuthPage({ onLogin, onObserverEnter }) {
 
     const data = await res.json();
 
-    if (!res.ok) return alert(data.error);
+    if (!res.ok) {
+      setMessage(data.error || "Error al iniciar sesión.");
+      setMessageType("error");
+      return;
+    }
 
+    setMessage("Inicio de sesión correcto.");
+    setMessageType("success");
     onLogin(data.token);
   };
 
@@ -30,18 +50,37 @@ export default function AuthPage({ onLogin, onObserverEnter }) {
   //-----------------------------
   const handleRegister = async (e) => {
     e.preventDefault();
+    clearMessage();
 
-    const res = await fetch("http://localhost:3001/api/auth/register", {
+    if (!nombre || !email || !password) {
+      setMessage("Completa todos los datos para registrarte.");
+      setMessageType("error");
+      return;
+    }
+
+    const res = await fetch(`${apiUrl}/api/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nombre, email, password }),
     });
 
     const data = await res.json();
-    if (!res.ok) return alert(data.error);
+    if (!res.ok) {
+      setMessage(data.error || "El registro falló. Intenta de nuevo.");
+      setMessageType("error");
+      return;
+    }
 
-    alert("Usuario registrado correctamente.");
+    setMessage("Usuario registrado correctamente.");
+    setMessageType("success");
+    setNombre("");
+    setEmail("");
+    setPassword("");
     setIsRegister(false);
+
+    if (data.token) {
+      onLogin(data.token);
+    }
   };
 
   return (
@@ -57,6 +96,21 @@ export default function AuthPage({ onLogin, onObserverEnter }) {
         <h2 style={{ textAlign: "center" }}>
           {isRegister ? "Registrar usuario" : "Iniciar sesión"}
         </h2>
+
+        {message && (
+          <div
+            style={{
+              marginBottom: "12px",
+              padding: "12px",
+              borderRadius: "8px",
+              background: messageType === "success" ? "#d4edda" : "#f8d7da",
+              color: messageType === "success" ? "#155724" : "#721c24",
+              border: messageType === "success" ? "1px solid #c3e6cb" : "1px solid #f5c6cb",
+            }}
+          >
+            {message}
+          </div>
+        )}
 
         <form onSubmit={isRegister ? handleRegister : handleLogin}>
           {isRegister && (
@@ -105,7 +159,10 @@ export default function AuthPage({ onLogin, onObserverEnter }) {
         </form>
 
         <button
-          onClick={() => setIsRegister(!isRegister)}
+          onClick={() => {
+            clearMessage();
+            setIsRegister(!isRegister);
+          }}
           style={{
             width: "100%",
             padding: "10px",
