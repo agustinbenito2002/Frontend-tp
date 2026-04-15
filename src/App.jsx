@@ -17,6 +17,8 @@ function App() {
   // búsqueda por nombre
   const [searchQuery, setSearchQuery] = useState("");
 
+app.use(cors()); 
+
   // Popup agregar objeto
   const [showAddPopup, setShowAddPopup] = useState(false);
   const [newObjeto, setNewObjeto] = useState({
