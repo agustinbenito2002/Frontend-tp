@@ -17,7 +17,7 @@ function App() {
   // búsqueda por nombre
   const [searchQuery, setSearchQuery] = useState("");
 
-app.use(cors({ origin: 'https://frontend-tp-1.onrender.com/' }));
+  app.use(cors({ origin: 'https://frontend-tp-1.onrender.com/' }));
 
   // Popup agregar objeto
   const [showAddPopup, setShowAddPopup] = useState(false);
