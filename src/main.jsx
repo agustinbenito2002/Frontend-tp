@@ -6,7 +6,7 @@ import axios from 'axios'
 
 // Llamada de prueba al backend (localhost:3001)
 axios
-  .get('https://backend-tp-n6tv.onrender.com//api/duenios/7')
+  .get('https://backend-tp-n6tv.onrender.com')
   .then(response => {
     console.log("Datos recibidos del backend:", response.data)
   })
