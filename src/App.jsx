@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import AuthPage from "./authpage";
 
 function App() {
-  const apiUrl = import.meta.env.VITE_API_URL || "https://backend-tp-n6tv.onrender.com";
+  // En desarrollo usa /api (proxy de Vite), en producción usa variable de entorno
+  const apiUrl = import.meta.env.VITE_API_URL || "";
   const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [isObserver, setIsObserver] = useState(localStorage.getItem("observer") === "true");
   const [objetos, setObjetos] = useState([]);

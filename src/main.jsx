@@ -4,9 +4,12 @@ import './index.css'
 import App from './App.jsx'
 import axios from 'axios'
 
-// Llamada de prueba al backend (localhost:3001)
+// Configurar axios para usar rutas relativas
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || '/api'
+
+// Llamada de prueba al backend
 axios
-  .get('https://backend-tp-n6tv.onrender.com')
+  .get('/')
   .then(response => {
     console.log("Datos recibidos del backend:", response.data)
   })
