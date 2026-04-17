@@ -89,7 +89,7 @@ export default function AuthPage({ apiUrl, onLogin, onObserverEnter }) {
         style={{
           background: "white",
           padding: "30px",
-          borderRadius: "10px",
+          borderRadius: "100px",
           width: "350px",
         }}
       >
