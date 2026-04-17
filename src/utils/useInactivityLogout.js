@@ -1,21 +1,27 @@
 // Hook para detectar inactividad del usuario
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { tokenManager } from "./tokenManager";
 
 const INACTIVITY_TIMEOUT = 30 * 60 * 1000; // 30 minutos
 
 export const useInactivityLogout = (onLogout) => {
   const checkExpiryRef = useRef(null);
+  const onLogoutRef = useRef(onLogout);
 
-  const resetInactivityTimer = () => {
-    // Renovar el timestamp del token
-    tokenManager.refreshTimeout();
-  };
+  // Actualizar referencia de onLogout cuando cambia
+  useEffect(() => {
+    onLogoutRef.current = onLogout;
+  }, [onLogout]);
 
   useEffect(() => {
     // Solo activar si hay un token
     const token = localStorage.getItem("token");
     if (!token) return;
+
+    const resetInactivityTimer = () => {
+      // Renovar el timestamp del token
+      tokenManager.refreshTimeout();
+    };
 
     // Eventos que detectan actividad del usuario
     const events = ["mousedown", "keydown", "scroll", "touchstart", "click"];
@@ -40,7 +46,7 @@ export const useInactivityLogout = (onLogout) => {
         events.forEach((event) => {
           window.removeEventListener(event, resetInactivityTimer);
         });
-        onLogout();
+        onLogoutRef.current();
       }
     }, 10000); // Verificar cada 10 segundos
 
@@ -53,5 +59,5 @@ export const useInactivityLogout = (onLogout) => {
         clearInterval(checkExpiryRef.current);
       }
     };
-  }, [onLogout]);
+  }, []);
 };

@@ -6,7 +6,7 @@ import { useInactivityLogout } from "./utils/useInactivityLogout";
 function App() {
   // En desarrollo usa /api (proxy de Vite), en producción usa variable de entorno
   const apiUrl = import.meta.env.VITE_API_URL || "";
-  const [token, setToken] = useState(tokenManager.getToken() || null);
+  const [token, setToken] = useState(null);
   const [isObserver, setIsObserver] = useState(localStorage.getItem("observer") === "true");
   const [objetos, setObjetos] = useState([]);
   const [selectedObjeto, setSelectedObjeto] = useState(null);
@@ -19,6 +19,14 @@ function App() {
   const [duenios, setDuenios] = useState([]);
   // búsqueda por nombre
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Inicializar token al montar el componente
+  useEffect(() => {
+    const validToken = tokenManager.getToken();
+    if (validToken) {
+      setToken(validToken);
+    }
+  }, []);
 
 
 
@@ -99,9 +107,6 @@ function App() {
       });
   }, [selectedObjeto]);
 
-  // Detectar inactividad y cerrar sesión automáticamente
-  useInactivityLogout(logout);
-
   // --------------------------------
   // Login
   // --------------------------------
@@ -129,6 +134,9 @@ function App() {
     setObjetos([]);
     setSearchQuery("");
   };
+
+  // Detectar inactividad y cerrar sesión automáticamente
+  useInactivityLogout(logout);
 
   // --------------------------------
   // Guardar nuevo objeto
