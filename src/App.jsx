@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import AuthPage from "./authpage";
+import { tokenManager } from "./utils/tokenManager";
+import { useInactivityLogout } from "./utils/useInactivityLogout";
 
 function App() {
   // En desarrollo usa /api (proxy de Vite), en producción usa variable de entorno
   const apiUrl = import.meta.env.VITE_API_URL || "";
-  const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [token, setToken] = useState(tokenManager.getToken() || null);
   const [isObserver, setIsObserver] = useState(localStorage.getItem("observer") === "true");
   const [objetos, setObjetos] = useState([]);
   const [selectedObjeto, setSelectedObjeto] = useState(null);
@@ -97,11 +99,14 @@ function App() {
       });
   }, [selectedObjeto]);
 
+  // Detectar inactividad y cerrar sesión automáticamente
+  useInactivityLogout(logout);
+
   // --------------------------------
   // Login
   // --------------------------------
   const handleUserLogin = (jwt) => {
-    localStorage.setItem("token", jwt);
+    tokenManager.setToken(jwt);
     // Si ingresó un usuario normal, asegurar que no quede modo observador
     localStorage.removeItem("observer");
     setIsObserver(false);
@@ -117,7 +122,7 @@ function App() {
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
+    tokenManager.clearToken();
     localStorage.removeItem("observer");
     setToken(null);
     setIsObserver(false);
