@@ -84,16 +84,30 @@ export default function AuthPage({ apiUrl, onLogin, onObserverEnter }) {
   };
 
   return (
-    <div style={{ maxWidth: 420, margin: "40px auto", padding: 18 }}>
+    <div style={{ 
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "100vh",
+      padding: "20px",
+      background: "#2c3e50"
+    }}>
       <div
         style={{
           background: "white",
           padding: "30px",
-          borderRadius: "100px",
-          width: "350px",
+          borderRadius: "10px",
+          width: "100%",
+          maxWidth: "400px",
+          boxShadow: "0 10px 25px rgba(0, 0, 0, 0.3)"
         }}
       >
-        <h2 style={{ textAlign: "center" }}>
+        <h2 style={{ 
+          textAlign: "center",
+          color: "#2c3e50",
+          marginBottom: "20px"
+        }}>
           {isRegister ? "Registrar usuario" : "Iniciar sesión"}
         </h2>
 
@@ -119,7 +133,17 @@ export default function AuthPage({ apiUrl, onLogin, onObserverEnter }) {
               placeholder="Nombre completo"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
-              style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
+              style={{ 
+                width: "100%", 
+                padding: "12px", 
+                marginBottom: "12px",
+                boxSizing: "border-box",
+                border: "2px solid #dfe6e9",
+                borderRadius: "5px",
+                fontSize: "14px",
+                color: "#2c3e50",
+                backgroundColor: "#fff"
+              }}
             />
           )}
 
@@ -128,7 +152,17 @@ export default function AuthPage({ apiUrl, onLogin, onObserverEnter }) {
             placeholder="Correo"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
+            style={{ 
+              width: "100%", 
+              padding: "12px", 
+              marginBottom: "12px",
+              boxSizing: "border-box",
+              border: "2px solid #dfe6e9",
+              borderRadius: "5px",
+              fontSize: "14px",
+              color: "#2c3e50",
+              backgroundColor: "#fff"
+            }}
             required
           />
 
@@ -137,7 +171,17 @@ export default function AuthPage({ apiUrl, onLogin, onObserverEnter }) {
             placeholder="Contraseña"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            style={{ width: "100%", padding: "10px", marginBottom: "20px" }}
+            style={{ 
+              width: "100%", 
+              padding: "12px", 
+              marginBottom: "20px",
+              boxSizing: "border-box",
+              border: "2px solid #dfe6e9",
+              borderRadius: "5px",
+              fontSize: "14px",
+              color: "#2c3e50",
+              backgroundColor: "#fff"
+            }}
             required
           />
 
@@ -145,13 +189,15 @@ export default function AuthPage({ apiUrl, onLogin, onObserverEnter }) {
             type="submit"
             style={{
               width: "100%",
-              padding: "10px",
+              padding: "12px",
               cursor: "pointer",
               background: isRegister ? "#00b894" : "#0984e3",
               color: "white",
               border: "none",
               borderRadius: "5px",
               marginBottom: "10px",
+              fontSize: "16px",
+              fontWeight: "bold"
             }}
           >
             {isRegister ? "Registrar" : "Iniciar sesión"}
@@ -165,28 +211,34 @@ export default function AuthPage({ apiUrl, onLogin, onObserverEnter }) {
           }}
           style={{
             width: "100%",
-            padding: "10px",
+            padding: "12px",
             cursor: "pointer",
             background: "#dfe6e9",
+            color: "#2c3e50",
             border: "none",
             borderRadius: "5px",
             marginBottom: "10px",
+            fontSize: "16px",
+            fontWeight: "bold"
           }}
         >
           {isRegister ? "Volver a iniciar sesión" : "Crear cuenta"}
         </button>
       </div>
 
-      <div style={{ marginTop: 12, display: "flex", gap: 8 }}>
+      <div style={{ marginTop: 20, display: "flex", gap: 8, width: "100%", maxWidth: "400px" }}>
         <button
           onClick={onObserverEnter}
           style={{
             flex: 1,
-            padding: "10px",
-            background: "#2c3e50",
+            padding: "12px",
+            background: "#34495e",
             color: "#fff",
             border: "none",
             borderRadius: 6,
+            cursor: "pointer",
+            fontSize: "16px",
+            fontWeight: "bold"
           }}
         >
           Entrar como Observador
