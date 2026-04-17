@@ -234,66 +234,72 @@ function App() {
           <strong>Modo observador</strong> — solo lectura. No puedes agregar, borrar o editar objetos.
         </div>
       )}
-      <h2>Objetos Perdidos</h2>
+      
+      {/* Encabezado centrado */}
+      <div style={{ textAlign: "center", marginBottom: "30px" }}>
+        <h2 style={{ margin: "0 0 20px 0" }}>Objetos Perdidos</h2>
 
-      {/* Botones + Buscador */}
-      <div style={{ display: "flex", gap: "10px", marginBottom: "20px", alignItems: "center" }}>
-        {/* Solo mostrar Agregar si hay sesión válida (no observador) */}
-        {token && (
-          <button
-            onClick={() => setShowAddPopup(true)}
-            style={{
-              padding: "10px",
-              background: "green",
-              color: "white",
-              border: "none",
-              borderRadius: "6px",
-            }}
-          >
-            Agregar Objeto
-          </button>
-        )}
-
-        <button
-          onClick={logout}
-          style={{
-            padding: "10px",
-            background: "red",
-            color: "white",
-            border: "none",
-            borderRadius: "6px",
-          }}
-        >
-          Cerrar Sesión
-        </button>
-
-        {/* Buscador */}
-        <div style={{ marginLeft: "auto", display: "flex", gap: 8, alignItems: "center" }}>
-          <input
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Buscar por nombre..."
-            style={{
-              padding: "8px 10px",
-              borderRadius: 6,
-              border: "1px solid #ccc",
-              minWidth: 220,
-            }}
-          />
-          {searchQuery && (
+        {/* Botones + Buscador centrados */}
+        <div style={{ display: "flex", gap: "10px", justifyContent: "center", alignItems: "center", flexWrap: "wrap" }}>
+          {/* Solo mostrar Agregar si hay sesión válida (no observador) */}
+          {token && (
             <button
-              onClick={() => setSearchQuery("")}
+              onClick={() => setShowAddPopup(true)}
               style={{
-                padding: "8px 10px",
-                background: "#ddd",
+                padding: "10px 15px",
+                background: "green",
+                color: "white",
                 border: "none",
-                borderRadius: 6,
+                borderRadius: "6px",
                 cursor: "pointer",
               }}
             >
-              Limpiar
+              Agregar Objeto
             </button>
           )}
+
+          <button
+            onClick={logout}
+            style={{
+              padding: "10px 15px",
+              background: "red",
+              color: "white",
+              border: "none",
+              borderRadius: "6px",
+              cursor: "pointer",
+            }}
+          >
+            Cerrar Sesión
+          </button>
+
+          {/* Buscador */}
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <input
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Buscar por nombre..."
+              style={{
+                padding: "8px 10px",
+                borderRadius: 6,
+                border: "1px solid #ccc",
+                minWidth: 220,
+              }}
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                style={{
+                  padding: "8px 10px",
+                  background: "#ddd",
+                  border: "none",
+                  borderRadius: 6,
+                  cursor: "pointer",
+                }}
+              >
+                Limpiar
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
