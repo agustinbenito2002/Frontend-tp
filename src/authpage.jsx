@@ -90,8 +90,13 @@ export default function AuthPage({ apiUrl, onLogin, onObserverEnter }) {
       justifyContent: "center",
       alignItems: "center",
       minHeight: "100vh",
-      padding: "20px",
-      background: "#2c3e50"
+      width: "100vw",
+      margin: 0,
+      padding: 0,
+      background: "#0984e3",
+      position: "fixed",
+      top: 0,
+      left: 0
     }}>
       <div
         style={{
