@@ -84,13 +84,22 @@ export default function AuthPage({ apiUrl, onLogin, onObserverEnter }) {
   };
 
   return (
-    <div style={{ maxWidth: 420, margin: "40px auto", padding: 18 }}>
+    <div style={{ 
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "100vh",
+      padding: "20px",
+      background: "#f5f5f5"
+    }}>
       <div
         style={{
           background: "white",
           padding: "30px",
           borderRadius: "10px",
           width: "350px",
+          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)"
         }}
       >
         <h2 style={{ textAlign: "center" }}>
@@ -177,7 +186,7 @@ export default function AuthPage({ apiUrl, onLogin, onObserverEnter }) {
         </button>
       </div>
 
-      <div style={{ marginTop: 12, display: "flex", gap: 8 }}>
+      <div style={{ marginTop: 20, display: "flex", gap: 8, width: "350px" }}>
         <button
           onClick={onObserverEnter}
           style={{
@@ -187,6 +196,7 @@ export default function AuthPage({ apiUrl, onLogin, onObserverEnter }) {
             color: "#fff",
             border: "none",
             borderRadius: 6,
+            cursor: "pointer"
           }}
         >
           Entrar como Observador
