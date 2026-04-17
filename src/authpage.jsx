@@ -86,7 +86,7 @@ export default function AuthPage({ apiUrl, onLogin, onObserverEnter }) {
   return (
     <div style={{ 
       display: "flex",
-      flexDirection: "column",
+      flexDirection: "row",
       justifyContent: "center",
       alignItems: "center",
       minHeight: "100vh",
