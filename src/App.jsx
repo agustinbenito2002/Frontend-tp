@@ -327,7 +327,7 @@ function App() {
               cursor: "pointer",
               padding: "16px",
               borderRadius: "8px",
-              border: "2px solid #3b82f6",
+              border: "2px solid #000000",
               background: "#fff",
               boxShadow: "0 4px 12px rgba(30, 64, 175, 0.15)",
               display: "flex",
