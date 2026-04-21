@@ -354,7 +354,7 @@ function App() {
                 display: "inline-block",
                 padding: "6px 8px",
                 borderRadius: "14px",
-                background: obj.estado ? "#0284c7" : "#0891b2",
+                background: obj.estado ? "#dc2626" : "#10b981",
                 color: "#fff",
                 fontWeight: "600",
                 fontSize: "12px",
