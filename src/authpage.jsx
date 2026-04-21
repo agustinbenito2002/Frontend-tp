@@ -219,7 +219,7 @@ export default function AuthPage({ apiUrl, onLogin, onObserverEnter }) {
             width: "100%",
             padding: "12px",
             cursor: "pointer",
-            background: "white",
+            background: "#dbeafe",
             color: "#1e40af",
             border: "2px solid #1e40af",
             borderRadius: "5px",
