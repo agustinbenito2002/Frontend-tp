@@ -230,7 +230,7 @@ function App() {
     <div style={{ padding: "20px", fontFamily: "Arial" }}>
       {/* banner modo observador */}
       {isObserver && (
-        <div style={{ marginBottom: "10px", padding: "8px", background: "#000000", borderRadius: "6px" }}>
+        <div style={{ marginBottom: "10px", padding: "12px", background: "#1e40af", borderRadius: "6px", color: "white" }}>
           <strong>Modo observador</strong> — solo lectura. No puedes agregar, borrar o editar objetos.
         </div>
       )}
