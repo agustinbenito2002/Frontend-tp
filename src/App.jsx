@@ -247,11 +247,12 @@ function App() {
               onClick={() => setShowAddPopup(true)}
               style={{
                 padding: "10px 15px",
-                background: "green",
+                background: "#1e40af",
                 color: "white",
                 border: "none",
                 borderRadius: "6px",
                 cursor: "pointer",
+                fontWeight: "600",
               }}
             >
               Agregar Objeto
@@ -262,11 +263,12 @@ function App() {
             onClick={logout}
             style={{
               padding: "10px 15px",
-              background: "red",
+              background: "#dc2626",
               color: "white",
               border: "none",
               borderRadius: "6px",
               cursor: "pointer",
+              fontWeight: "600",
             }}
           >
             Cerrar Sesión
@@ -352,7 +354,7 @@ function App() {
                 display: "inline-block",
                 padding: "6px 8px",
                 borderRadius: "14px",
-                background: obj.estado ? "#ff6b6b" : "#2ecc71",
+                background: obj.estado ? "#0284c7" : "#0891b2",
                 color: "#fff",
                 fontWeight: "600",
                 fontSize: "12px",
@@ -388,15 +390,15 @@ function App() {
             setShowDetailPopup(false);
           }}
         >
-          <div style={{ width: "420px", background: "white", padding: "20px", borderRadius: "10px", color: "#111" }}
+          <div style={{ width: "420px", background: "white", padding: "20px", borderRadius: "10px", color: "#111", boxShadow: "0 4px 6px rgba(0,0,0,0.1)" }}
                onClick={(e) => e.stopPropagation() /* evitar cerrar al clickear el contenido */}>
-            <h3 style={{ color: "#111" }}>Detalle del objeto</h3>
+            <h3 style={{ color: "#1e40af", marginTop: 0 }}>Detalle del objeto</h3>
 
-            <p><strong>Nombre:</strong> {selectedObjeto.nombre}</p>
-            <p><strong>Características:</strong> {selectedObjeto.caracteristicas}</p>
-            <p><strong>Estado:</strong> {selectedObjeto.estado ? "Perdido" : "Recuperado"}</p>
+            <p style={{ marginBottom: "8px" }}><strong>Nombre:</strong> {selectedObjeto.nombre}</p>
+            <p style={{ marginBottom: "8px" }}><strong>Características:</strong> {selectedObjeto.caracteristicas}</p>
+            <p style={{ marginBottom: "12px" }}><strong>Estado:</strong> {selectedObjeto.estado ? "Perdido" : "Recuperado"}</p>
 
-            <h4>Dueño</h4>
+            <h4 style={{ color: "#1e40af", marginBottom: "8px" }}>Dueño</h4>
             {duenio ? (
               <>
                 <p><strong>Nombre:</strong> {duenio.duenio}</p>
@@ -415,10 +417,12 @@ function App() {
                   style={{
                     flex: 1,
                     padding: "10px",
-                    background: "#c0392b", // rojo contrastante
+                    background: "#dc2626",
                     color: "white",
                     border: "none",
                     borderRadius: "6px",
+                    fontWeight: "600",
+                    cursor: "pointer",
                   }}
                 >
                   Borrar Objeto
@@ -434,10 +438,12 @@ function App() {
                 style={{
                   flex: 1,
                   padding: "10px",
-                  background: "#333", // oscuro y contrastante
+                  background: "#60a5fa",
                   color: "white",
                   border: "none",
                   borderRadius: "6px",
+                  fontWeight: "600",
+                  cursor: "pointer",
                 }}
               >
                 Cerrar
@@ -460,16 +466,16 @@ function App() {
             setCrearNuevoDuenio(false);
           }}
         >
-          <div style={{ width: "350px", background: "white", padding: "20px", borderRadius: "10px", color: "#111" }}
+          <div style={{ width: "350px", background: "white", padding: "20px", borderRadius: "10px", color: "#111", boxShadow: "0 4px 6px rgba(0,0,0,0.1)" }}
                onClick={(e) => e.stopPropagation()}>
-            <h3 style={{ color: "#111" }}>Agregar Objeto</h3>
+            <h3 style={{ color: "#1e40af", marginTop: 0 }}>Agregar Objeto</h3>
 
             <input
               type="text"
               placeholder="Nombre"
               value={newObjeto.nombre}
               onChange={(e) => setNewObjeto({ ...newObjeto, nombre: e.target.value })}
-              style={{ width: "100%", marginBottom: "10px", color: "#111" }}
+              style={{ width: "100%", marginBottom: "10px", padding: "8px", color: "#111", border: "1px solid #3b82f6", borderRadius: "4px", boxSizing: "border-box" }}
             />
 
             <textarea
@@ -478,10 +484,10 @@ function App() {
               onChange={(e) =>
                 setNewObjeto({ ...newObjeto, caracteristicas: e.target.value })
               }
-              style={{ width: "100%", marginBottom: "10px", color: "#111" }}
+              style={{ width: "100%", marginBottom: "10px", padding: "8px", color: "#111", border: "1px solid #3b82f6", borderRadius: "4px", boxSizing: "border-box" }}
             />
 
-            <label style={{ color: "#111" }}> Dueño: </label>
+            <label style={{ color: "#1e40af", fontWeight: "600" }}> Dueño: </label>
             <select
               value={crearNuevoDuenio ? "nuevo" : newObjeto.id_duenio}
               onChange={(e) => {
@@ -492,7 +498,7 @@ function App() {
                   setNewObjeto({ ...newObjeto, id_duenio: Number(e.target.value) });
                 }
               }}
-              style={{ width: "100%", marginBottom: "10px", color: "#111" }}
+              style={{ width: "100%", marginBottom: "10px", padding: "8px", color: "#111", border: "1px solid #3b82f6", borderRadius: "4px", boxSizing: "border-box" }}
             >
               <option value="">Seleccione un dueño</option>
               {duenios.map((d) => (
@@ -505,7 +511,7 @@ function App() {
 
             {/* Campos si crea un dueño nuevo */}
             {crearNuevoDuenio && (
-              <div style={{ marginBottom: "10px", padding: "10px", border: "1px solid #aaa" }}>
+              <div style={{ marginBottom: "10px", padding: "10px", border: "2px solid #3b82f6", borderRadius: "4px", background: "#f0f9ff" }}>
                 <input
                   type="text"
                   placeholder="Nombre del dueño"
@@ -513,7 +519,7 @@ function App() {
                   onChange={(e) =>
                     setNuevoDuenioData({ ...nuevoDuenioData, duenio: e.target.value })
                   }
-                  style={{ width: "100%", marginBottom: "5px", color: "#111" }}
+                  style={{ width: "100%", marginBottom: "5px", padding: "6px", color: "#111", border: "1px solid #3b82f6", borderRadius: "4px", boxSizing: "border-box" }}
                 />
                 <input
                   type="text"
@@ -522,7 +528,7 @@ function App() {
                   onChange={(e) =>
                     setNuevoDuenioData({ ...nuevoDuenioData, telefono: e.target.value })
                   }
-                  style={{ width: "100%", marginBottom: "5px", color: "#111" }}
+                  style={{ width: "100%", marginBottom: "5px", padding: "6px", color: "#111", border: "1px solid #3b82f6", borderRadius: "4px", boxSizing: "border-box" }}
                 />
                 <input
                   type="text"
@@ -531,7 +537,7 @@ function App() {
                   onChange={(e) =>
                     setNuevoDuenioData({ ...nuevoDuenioData, mail: e.target.value })
                   }
-                  style={{ width: "100%", marginBottom: "5px", color: "#111" }}
+                  style={{ width: "100%", marginBottom: "5px", padding: "6px", color: "#111", border: "1px solid #3b82f6", borderRadius: "4px", boxSizing: "border-box" }}
                 />
                 <input
                   type="text"
@@ -540,18 +546,18 @@ function App() {
                   onChange={(e) =>
                     setNuevoDuenioData({ ...nuevoDuenioData, direccion: e.target.value })
                   }
-                  style={{ width: "100%", marginBottom: "5px", color: "#111" }}
+                  style={{ width: "100%", marginBottom: "5px", padding: "6px", color: "#111", border: "1px solid #3b82f6", borderRadius: "4px", boxSizing: "border-box" }}
                 />
               </div>
             )}
 
-            <label style={{ color: "#111" }}>Estado:</label>
+            <label style={{ color: "#1e40af", fontWeight: "600" }}>Estado:</label>
             <select
               value={String(newObjeto.estado)}
               onChange={(e) =>
                 setNewObjeto({ ...newObjeto, estado: e.target.value === "true" })
               }
-              style={{ width: "100%", color: "#111" }}
+              style={{ width: "100%", padding: "8px", marginBottom: "15px", color: "#111", border: "1px solid #3b82f6", borderRadius: "4px", boxSizing: "border-box" }}
             >
               <option value="true">Perdido</option>
               <option value="false">Recuperado</option>
@@ -563,11 +569,12 @@ function App() {
                 style={{
                   flex: 1,
                   padding: "10px",
-                  background: "green",
+                  background: "#1e40af",
                   color: "white",
                   border: "none",
                   borderRadius: "6px",
                   cursor: "pointer",
+                  fontWeight: "600",
                 }}
               >
                 Guardar
@@ -578,10 +585,12 @@ function App() {
                 style={{
                   flex: 1,
                   padding: "10px",
-                  background: "#c0392b",
+                  background: "#dc2626",
                   color: "white",
                   border: "none",
                   borderRadius: "6px",
+                  fontWeight: "600",
+                  cursor: "pointer",
                 }}
               >
                 Cancelar
