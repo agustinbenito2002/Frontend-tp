@@ -105,7 +105,8 @@ export default function AuthPage({ apiUrl, onLogin, onObserverEnter }) {
           borderRadius: "10px",
           width: "100%",
           maxWidth: "400px",
-          boxShadow: "0 10px 25px rgba(0, 0, 0, 0.3)"
+          border: "2px solid #1e40af",
+          boxShadow: "0 10px 30px rgba(30, 64, 175, 0.25)"
         }}
       >
         <h2 style={{ 
@@ -162,11 +163,11 @@ export default function AuthPage({ apiUrl, onLogin, onObserverEnter }) {
               padding: "12px", 
               marginBottom: "12px",
               boxSizing: "border-box",
-              border: "2px solid #dfe6e9",
+              border: "2px solid #3b82f6",
               borderRadius: "5px",
               fontSize: "14px",
-              color: "#010203",
-              backgroundColor: "#000000"
+              color: "#2c3e50",
+              backgroundColor: "#fff"
             }}
             required
           />
