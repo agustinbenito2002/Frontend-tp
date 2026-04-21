@@ -328,7 +328,7 @@ function App() {
               padding: "16px",
               borderRadius: "8px",
               border: "2px solid #000000",
-              background: "#fff",
+              background: "#000000",
               boxShadow: "0 4px 12px rgba(30, 64, 175, 0.15)",
               display: "flex",
               flexDirection: "column",
