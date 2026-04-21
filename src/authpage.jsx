@@ -165,7 +165,7 @@ export default function AuthPage({ apiUrl, onLogin, onObserverEnter }) {
               border: "2px solid #dfe6e9",
               borderRadius: "5px",
               fontSize: "14px",
-              color: "#2c3e50",
+              color: "#010203",
               backgroundColor: "#000000"
             }}
             required
